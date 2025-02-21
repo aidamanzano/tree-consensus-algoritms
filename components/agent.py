@@ -13,6 +13,8 @@ class Agent:
         self.neighbours = None
 
         self.range_of_sight = 1.0
+        #default to not-pruned. 
+        self.pruned = False
 
         self.algorithm_output = None
 
@@ -44,9 +46,7 @@ class Agent:
 
         rng = np.random.default_rng()
 
-        # Define possible choices
-        choices = [True, False, None]
-
         # Draw a random choice based on probabilities
         output = rng.choice(choices, p=prob_vector)
         return output
+
