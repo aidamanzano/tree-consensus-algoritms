@@ -28,5 +28,4 @@ def recursive_build_tree(starting_tree, agent_dictionary, depth_level, max_depth
             #if child not in starting_tree[depth_level+1]:
             starting_tree[depth_level + 1].update(child_dict)
 
-            
     return recursive_build_tree(starting_tree, agent_dictionary, depth_level + 1, max_depth, n_d)
