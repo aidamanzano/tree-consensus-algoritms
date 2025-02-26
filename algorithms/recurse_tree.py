@@ -2,7 +2,7 @@
 from neighbours import get_neighbours
 from random import sample
 
-def recursive_build_tree(starting_tree, agent_dictionary, depth_level, max_depth, n_d):
+def recursive_build_tree(starting_tree:dict, agent_dictionary:dict, depth_level:int, max_depth:int, n_d:list):
     if depth_level == max_depth:
         return starting_tree
     

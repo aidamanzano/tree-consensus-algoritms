@@ -30,6 +30,7 @@ class Agent:
 
         self.response = self.generate_statement(p_response, choices = [True, False, None])
         self.claim = self.generate_statement(p_claim, choices = [True, False, None])
+        self.in_tree = True
 
     @staticmethod
     def generate_position(min:float, max:float):        

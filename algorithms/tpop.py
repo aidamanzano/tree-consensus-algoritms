@@ -33,6 +33,16 @@ def checks(parent:Agent, child:Agent, threshold:float, tree:dict, named_agents:l
 
 
 def TPoP(prover:Agent, tree:dict, threshold:float)-> bool:
-    
+    """
+    For each depth level:
+    For each parent in that level:
+    for each of its children:
+        run the checks function
+        update the number of approvals of the parent
+    if the parent has enough approvals:
+        keep it in the tree (ie it should be considered a valid child in the depth level above)
+    otherwise:
+        prune it from the tree (ie: do not visit it)
+    repeat"""
 
     
