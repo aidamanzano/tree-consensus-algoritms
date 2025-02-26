@@ -28,8 +28,8 @@ class Agent:
 
         self.agent_id = self.generate_unique_id()
 
-        self.response = self.generate_statement(p_response, choices = [True, False, None])
-        self.claim = self.generate_statement(p_claim, choices = [True, False, None])
+        self.response = self.generate_statement(p_response, choices = [1, -1, 0])
+        self.claim = self.generate_statement(p_claim, choices = [1, -1, 0])
         self.in_tree = True
 
     @staticmethod
