@@ -13,8 +13,6 @@ class Agent:
         self.neighbours = None
 
         self.range_of_sight = 1.0
-        #default to not-pruned. 
-        self.pruned = False
 
         self.algorithm_output = None
 

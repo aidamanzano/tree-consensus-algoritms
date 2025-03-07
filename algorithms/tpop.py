@@ -1,38 +1,42 @@
-from components.agent import Agent
-from response import response
 
-#TODO: should the threshold be the same in terms of approval percentage and number of approvals in the tree?
-def checks(parent:Agent, child:Agent, threshold:float, tree:dict, named_agents:list, nodes_per_depth:list, depth_level:int)-> bool:
-    #do some checks
-    '''if:
-    child approves parent :ie: if the child's approval confidence is above a threshold
-    and
-    parent named enough children
-    and 
-    child is not in named_agents
-    and 
-    all named children are distinct
+def check_enough_nodes(tree, nodes_per_depth, depth, threshold):
+    for d in range(depth):
+        for parent in tree[d]:
+            
+            print(tree[d][parent]['children'])
+            if len(tree[d][parent]['children']) < nodes_per_depth[d] * threshold:
+                return False
+            else:
+                return True
 
-    return True
+def check_nodes_are_unique(tree):
+    tree_nodes_set = set()
+
+    for depth_level in tree.values():  # Iterate over depth levels
+        tree_nodes_set.update(depth_level.keys())
+
+    if len(tree_nodes_set) == sum(len(parents) for parents in tree.values()):
+        return True
     else:
-    return False
-    '''
-    assert parent == child.parent
-    if (
-        response(child, child.parent) >= threshold
-        and
-        len(tree[depth_level][parent]['children']) >= nodes_per_depth[depth_level] * threshold
-        and
-        child not in named_agents
-        and
-        len(set(named_agents)) == len(named_agents)
-    ):
+        return False
+    
+    
+
+def tree_checks(threshold:float, tree:dict, nodes_per_depth:list, depth:int)-> bool:
+    """check the tree architecture is valid.
+    check that: all nodes in the tree are unique
+    enough nodes have been named."""
+    
+    condition1 = check_enough_nodes(tree, nodes_per_depth, depth, threshold)
+    condition2 = check_nodes_are_unique(tree)
+
+    if (condition1 and condition2) == True:
         return True
     else:
         return False
 
-
-def TPoP(prover:Agent, tree:dict, threshold:float)-> bool:
+def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
+    #n_d is nodes_per_depth_level
     """
     For each depth level:
     For each parent in that level:
@@ -44,5 +48,39 @@ def TPoP(prover:Agent, tree:dict, threshold:float)-> bool:
     otherwise:
         prune it from the tree (ie: do not visit it)
     repeat"""
+    checks = tree_checks(threshold, tree, n_d, depth)
+    if checks == True:
 
+        responses_sum = 0
+        for depth_level in range(depth, -1, -1):
+            
+            depth_level_counter = 0
+            for parent in tree[depth_level]:
+                parent_approval_counter = 0
+                
+                #print(parent.in_tree)
+                if parent.in_tree == True:
+                    children = tree[depth_level][parent]['children']
+                    if children:
+                        for child in children:
+                            
+                            response = child.response
+                            parent_approval_counter += response
+                            responses_sum += response
+                            #print(f"parent approval counter in loop {parent_approval_counter}")
+                    
+                        #print(f"parent approval counter out of loop {parent_approval_counter}")
+
+                        if parent_approval_counter <= n_d[depth_level-1]*threshold:
+                            #print(f"parent approval counter {parent_approval_counter}, nd*t {n_d[depth_level-1]*threshold}")
+                            parent.in_tree = False
+                            #print(f"Depth {depth_level}, Response {child.response}, Parent in tree {parent.in_tree}")
+                        else:
+                            depth_level_counter += 1
+                            parent.in_tree = True #TODO: should i do this? or is it dangerous?
+                        
+
+        #print(depth_level_counter) #this will output 0 or 1. O if parent does not stay in the tree, and 1 if it does.
+        #print(parent_approval_counter) #this will output the sum the responses of the children of the root (at that last depth level). 
+        return responses_sum
     
