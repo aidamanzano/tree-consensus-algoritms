@@ -27,6 +27,7 @@ class Agent:
         self.agent_id = self.generate_unique_id()
 
         self.response = self.generate_statement(p_response, choices = [1, -1, 0])
+        #TODO: P_RESPONSE AND P_CLAIM SHOULD BE EQUAL FOR THIS TO WORK.
         self.claim = self.generate_statement(p_claim, choices = [1, -1, 0])
         self.in_tree = True
 

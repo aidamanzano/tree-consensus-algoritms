@@ -35,6 +35,14 @@ def tree_checks(threshold:float, tree:dict, nodes_per_depth:list, depth:int)-> b
     else:
         return False
 
+def reset_nodes(tree):
+    # Reset the state of the output dictionary and in_tree attributes
+    for depth_level in tree:
+        for parent in tree[depth_level]:
+            parent.in_tree = True
+            for child in tree[depth_level][parent]['children']:
+                child.in_tree = True
+
 def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
     #n_d is nodes_per_depth_level
     """
@@ -48,6 +56,10 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
     otherwise:
         prune it from the tree (ie: do not visit it)
     repeat"""
+    #ensure all nodes are reset again to be in the tree
+    reset_nodes(tree)
+
+    #check that the tree meets all other necessary criteria
     checks = tree_checks(threshold, tree, n_d, depth)
     if checks == True:
 
@@ -81,6 +93,7 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
                         
 
         #print(depth_level_counter) #this will output 0 or 1. O if parent does not stay in the tree, and 1 if it does.
-        #print(parent_approval_counter) #this will output the sum the responses of the children of the root (at that last depth level). 
+        #print(parent_approval_counter) #this will output the sum the responses of the children of the root (at that last depth level).
+        #TODO: CLASSIFY RESPONSE SUM WITH THRESHOLD 
         return responses_sum
     
