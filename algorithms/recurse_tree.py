@@ -1,5 +1,5 @@
 
-from neighbours import get_neighbours
+from algorithms.neighbours import get_neighbours
 from random import sample
 
 def recursive_build_tree(starting_tree:dict, agent_dictionary:dict, depth_level:int, max_depth:int, n_d:list):
@@ -11,7 +11,7 @@ def recursive_build_tree(starting_tree:dict, agent_dictionary:dict, depth_level:
         starting_tree[depth_level + 1] = {}
 
     for parent in starting_tree[depth_level]:
-        print('parent: ', parent)
+        #print('parent: ', parent)
         parent.neighbours = get_neighbours(parent, agent_dictionary)
         children = sample(parent.neighbours, n_d[depth_level])
         
@@ -19,7 +19,7 @@ def recursive_build_tree(starting_tree:dict, agent_dictionary:dict, depth_level:
         #set the parent of these children to equal parent here. 
         #print(children)
         
-        for child in children: #TODO: is this the same as starting_dict[depth_level][parent]['children']?
+        for child in children: #TODO: is this the same as starting_dict[depth_ level][parent]['children']?
             child.parent = parent
             child_dict = {child: {'children': [],
                             'instance': child,

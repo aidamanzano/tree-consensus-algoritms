@@ -3,7 +3,7 @@ def check_enough_nodes(tree, nodes_per_depth, depth, threshold):
     for d in range(depth):
         for parent in tree[d]:
             
-            print(tree[d][parent]['children'])
+            #print(tree[d][parent]['children'])
             if len(tree[d][parent]['children']) < nodes_per_depth[d] * threshold:
                 return False
             else:
@@ -19,8 +19,7 @@ def check_nodes_are_unique(tree):
         return True
     else:
         return False
-    
-    
+
 
 def tree_checks(threshold:float, tree:dict, nodes_per_depth:list, depth:int)-> bool:
     """check the tree architecture is valid.
@@ -43,6 +42,17 @@ def reset_nodes(tree):
             for child in tree[depth_level][parent]['children']:
                 child.in_tree = True
 
+def classifier(tpop_output, t1, t2):
+    if tpop_output < t1:
+        #classify the prover's claim as false
+        return -1
+    if t1 <= tpop_output < t2:
+        #classify the prover's claim as unknown/unverifiable
+        return 0
+    if tpop_output >= t2:
+        #classify the prover's claim as true
+        return 1
+
 def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
     #n_d is nodes_per_depth_level
     """
@@ -62,6 +72,7 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
     #check that the tree meets all other necessary criteria
     checks = tree_checks(threshold, tree, n_d, depth)
     if checks == True:
+        valid_tree = True
 
         responses_sum = 0
         for depth_level in range(depth, -1, -1):
@@ -90,10 +101,16 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
                         else:
                             depth_level_counter += 1
                             parent.in_tree = True #TODO: should i do this? or is it dangerous?
-                        
+        
+    else:
+        valid_tree = False
+        responses_sum = None
+        
+    return valid_tree, responses_sum
 
         #print(depth_level_counter) #this will output 0 or 1. O if parent does not stay in the tree, and 1 if it does.
         #print(parent_approval_counter) #this will output the sum the responses of the children of the root (at that last depth level).
         #TODO: CLASSIFY RESPONSE SUM WITH THRESHOLD 
-        return responses_sum
+        
     
+

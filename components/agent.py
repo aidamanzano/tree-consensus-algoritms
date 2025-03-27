@@ -14,7 +14,7 @@ class Agent:
 
         self.range_of_sight = 1.0
 
-        self.algorithm_output = None
+        self.algorithm_output = 'hello'
 
         self.min_x = environment_bounds[0][0]
         self.max_x = environment_bounds[0][1]

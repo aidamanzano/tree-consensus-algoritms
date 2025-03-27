@@ -1,16 +1,20 @@
 #set some thresholds for accept, unknown and reject 
 #compare total weight and then classify accordingly 
 
-#def results(agent_list:list):
-'''precision, recall and accuracy per class.
-class_category: True, False, Unknown
-claim_value: 1, -1, 0'''
+
+
+
 
 def results(agent_list, class_category, claim_value):
+    '''precision, recall and accuracy per class.
+    class_category: -1 (False), 0 (Unknown), 1 (True)
+    claim_value: 1, -1, 0'''
     True_Positives = 0
     True_Negatives = 0
     False_Positives = 0
     False_Negatives = 0
+
+    #TODO: this needs to be changed, i need to check class_category against claim_value
     for agent in agent_list:
         if agent.algorithm_output == class_category and agent.claim == claim_value:
             True_Positives += 1
