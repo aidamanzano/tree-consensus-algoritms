@@ -14,7 +14,8 @@ def results(agent_list, class_category, claim_value):
     False_Positives = 0
     False_Negatives = 0
 
-    #TODO: this needs to be changed, i need to check class_category against claim_value
+    #TODO: this needs to be changed, i need to check class_category against claim_value.
+    #TODO: also algorithm_output is currently not being assigned anywhere.
     for agent in agent_list:
         if agent.algorithm_output == class_category and agent.claim == claim_value:
             True_Positives += 1

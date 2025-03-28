@@ -27,6 +27,17 @@ def simulator(p_response, p_claim, dimensions, threshold, agents, N) -> pd.DataF
         tree = recursive_build_tree(starting_dict, agents_dict, 0, depth, n_d= n_d)
         valid_tree, responses_sum = TPoP(tree, n_d=n_d, depth = depth, threshold = threshold)
         
-        data.append((p_accept, p_reject, p_ignore, p_true, p_false, p_unverifiable, valid_tree, responses_sum))
-    df = pd.DataFrame(data, columns = ['p_accept', 'p_reject', 'p_ignore', 'p_true', 'p_false', 'p_unverifiable', 'valid_tree', 'responses_sum'])
+        #data.append((p_accept, p_reject, p_ignore, p_true, p_false, p_unverifiable, valid_tree, responses_sum))
+        data.append({
+            'p_accept': p_accept,
+            'p_reject': p_reject,
+            'p_ignore': p_ignore,
+            'p_true': p_true,
+            'p_false': p_false,
+            'p_unverifiable': p_unverifiable,
+            'valid_tree': valid_tree,
+            'responses_sum': responses_sum
+        })
+    df = pd.DataFrame(data)
+    #df = pd.DataFrame(data, columns = ['p_accept', 'p_reject', 'p_ignore', 'p_true', 'p_false', 'p_unverifiable', 'valid_tree', 'responses_sum'])
     return df

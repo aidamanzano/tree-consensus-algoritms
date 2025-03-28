@@ -43,6 +43,7 @@ def reset_nodes(tree):
                 child.in_tree = True
 
 def classifier(tpop_output, t1, t2):
+    #TODO: modify the agent's algorithm.output variable here?
     if tpop_output < t1:
         #classify the prover's claim as false
         return -1
