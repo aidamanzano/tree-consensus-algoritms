@@ -78,7 +78,7 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
         responses_sum = 0
         for depth_level in range(depth, -1, -1):
             
-            depth_level_counter = 0
+            #depth_level_counter = 0
             for parent in tree[depth_level]:
                 parent_approval_counter = 0
                 
@@ -100,7 +100,7 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
                             parent.in_tree = False
                             #print(f"Depth {depth_level}, Response {child.response}, Parent in tree {parent.in_tree}")
                         else:
-                            depth_level_counter += 1
+                            #depth_level_counter += 1
                             parent.in_tree = True #TODO: should i do this? or is it dangerous?
         
     else:

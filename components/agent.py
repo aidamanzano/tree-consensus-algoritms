@@ -27,7 +27,7 @@ class Agent:
         self.agent_id = self.generate_unique_id()
 
         self.response = self.generate_statement(p_response, choices = [1, -1, 0])
-        #TODO: P_RESPONSE AND P_CLAIM need to be set adequately. Rationale option would be set them to be equal. Can also set p_response to be conditional on prev p_r.
+        #TODO: P_RESPONSE AND P_CLAIM need to be set adequately. Rationale option would be set them to be equal. Can also set p_response to be conditional on prev p_r.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
         self.claim = self.generate_statement(p_claim, choices = [1, -1, 0])
         self.in_tree = True
 
