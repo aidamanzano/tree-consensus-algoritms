@@ -1,20 +1,20 @@
-
 def check_enough_nodes(tree, nodes_per_depth, depth, threshold):
-    for d in range(depth):
+    for d in range(depth, -1, -1):
         for parent in tree[d]:
-            
-            #print(tree[d][parent]['children'])
+            #print(len(tree[d][parent]['children']), nodes_per_depth[d])
             if len(tree[d][parent]['children']) < nodes_per_depth[d] * threshold:
                 return False
-            else:
-                return True
+    return True
+
 
 def check_nodes_are_unique(tree):
     tree_nodes_set = set()
 
-    for depth_level in tree.values():  # Iterate over depth levels
-        tree_nodes_set.update(depth_level.keys())
+    for depth_level_dict in tree.values():  # Iterate over depth levels
+        
+        tree_nodes_set.update(depth_level_dict.keys())
 
+    #print(sum(len(parents) for parents in tree.values()))
     if len(tree_nodes_set) == sum(len(parents) for parents in tree.values()):
         return True
     else:
@@ -54,7 +54,7 @@ def classifier(tpop_output, t1, t2):
         #classify the prover's claim as true
         return 1
 
-def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
+def TPoP(prover, tree:dict, n_d:list, depth:int, threshold:float)-> bool:
     #n_d is nodes_per_depth_level
     """
     For each depth level:
@@ -72,6 +72,7 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
 
     #check that the tree meets all other necessary criteria
     checks = tree_checks(threshold, tree, n_d, depth)
+    #print(checks)
     if checks == True:
         valid_tree = True
 
@@ -81,10 +82,11 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
             #depth_level_counter = 0
             for parent in tree[depth_level]:
                 parent_approval_counter = 0
-                
+                #print(depth_level, n_d[depth_level])
                 #print(parent.in_tree)
                 if parent.in_tree == True:
                     children = tree[depth_level][parent]['children']
+                    #print('children', children)
                     if children:
                         for child in children:
                             
@@ -95,23 +97,22 @@ def TPoP(tree:dict, n_d:list, depth:int, threshold:float)-> bool:
                     
                         #print(f"parent approval counter out of loop {parent_approval_counter}")
 
-                        if parent_approval_counter <= n_d[depth_level-1]*threshold:
-                            #print(f"parent approval counter {parent_approval_counter}, nd*t {n_d[depth_level-1]*threshold}")
+                        if parent_approval_counter < n_d[depth_level]*threshold:
+                            #print(f"parent approval counter {parent_approval_counter}, depth {depth_level} nd*t {n_d[depth_level]*threshold}, in tree {parent.in_tree}, parent ID, {parent}")
                             parent.in_tree = False
                             #print(f"Depth {depth_level}, Response {child.response}, Parent in tree {parent.in_tree}")
                         else:
                             #depth_level_counter += 1
-                            parent.in_tree = True #TODO: should i do this? or is it dangerous?
-        
+
+                            parent.in_tree = True   
+
     else:
         valid_tree = False
         responses_sum = None
-        
-    return valid_tree, responses_sum
-
-        #print(depth_level_counter) #this will output 0 or 1. O if parent does not stay in the tree, and 1 if it does.
-        #print(parent_approval_counter) #this will output the sum the responses of the children of the root (at that last depth level).
-        #TODO: CLASSIFY RESPONSE SUM WITH THRESHOLD 
-        
+        prover.in_tree = False
+    
+    assert prover == tree[0][prover]['instance']
+    
+    return prover.in_tree, valid_tree, responses_sum 
     
 

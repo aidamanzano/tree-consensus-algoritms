@@ -35,8 +35,8 @@ def find_valid_combination(rho, h_max=3, value_min=4, value_max=6, n_bound=5):
                 #values[:d] are the n_i's from 1 to d, and we need to multiply them
                 #by rho^d.
                 #list comprehension creates list of the following terms:
-                #[n_1 * rho,  (n_1 * n_2 * rho^2),  ... , ((\prod_{i = 1}^{d} n_i) * rho^h)]
-                eval_product(values[:d]) * (rho ** d) for d in range(1, h + 1)
+                #[n_1 * rho,  (n_1 * n_2 * rho),  ... , ((\prod_{i = 1}^{d} n_i) * rho)]
+                eval_product(values[:d]) * (rho) for d in range(1, h + 1)
             )
             #the sum of the elements of the list is:
             #v = n1 * rho + (n1 * n2 * rho^2) + ... + ((\prod_{i = 1}^{d} n_i) * rho^h)

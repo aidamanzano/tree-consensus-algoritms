@@ -48,5 +48,6 @@ class Agent:
 
         # Draw a random choice based on probabilities
         output = rng.choice(choices, p=prob_vector)
+        output = int(output)
         return output
 
