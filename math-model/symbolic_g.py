@@ -22,13 +22,14 @@ p_a, p_r, p_i = sp.symbols('p_a, p_r, p_i')
 
 
 g = generating_function(x, p_a, p_r, p_i)
-#g1 = g.subs({p_a: 0.5, p_r: 0.3, p_i: 0.2, n:1})
+g1_psub = g.subs({p_a: 0.5, p_r: 0.3, p_i: 0.2, n:1})
 g1 = g.subs(n, 1)
 print("Generating Function:", g, type(g))
-
+print("Substituted Generating Function with probabilities:", g1_psub)
 print("Substituted Generating Function:", g1)
 dg = derivative_generating_function(g, x)
 print("Derivative of Generating Function:", dg)
+print("Substituted Derivative of Generating Function:", dg.subs({p_a: 0.5, p_r: 0.3, p_i: 0.2, n:2, x: 1}))
 
 
 #eg = exp_generating_function(g, n)
