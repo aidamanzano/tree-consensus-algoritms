@@ -14,8 +14,11 @@ def binomial_probability(p_a, n, k):
         binomial_prob = n_choice_k * ((p_a ** k) * ((1-p_a) ** (n-k)))
         return binomial_prob
 
-def probability_of_success(p_a, n_d, t, height = len(n_d)):
 
+def probability_of_success(p_a, n_d, t, height = len(n_d)):
+#TODO: note that this is already taking the product over depth levels.
+#remember to change it and split the sum and the product operand, since p_success changes
+#at each depth level.
     total_prob_sucess = 1
     for d in range(height-1, -1, -1):
         n = n_d[d]
