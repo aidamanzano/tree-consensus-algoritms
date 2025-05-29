@@ -180,7 +180,7 @@ def prob_TCA_True(height:int, branching_factor:list, threshold:float,
 
             #probability of enough parents at depth level d succeeding (i.e: remaining in the tree)
             p_A_d = probability_of_success_at_depth_d(p_parent_success, N_d[d], threshold)
-            print(p_A_d)
+            #print(p_A_d)
 
             #we take the product of this across all depth levels to compute the total probability of enough parents remaining in the whole tree.
             total_probability *= p_A_d
